@@ -2,6 +2,9 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Levels Scanner</title>
 <style>
 :root{--bg:#0b1020;--bg2:#121a33;--card:#161f3a;--tx:#eef1fb;--mu:#8e9ac0;--bd:#26325a;--g:#2fe39a;--r:#ff6584;--ac:#7c8cff;--ac2:#4fd1ff;--am:#ffc857;box-sizing:border-box}
@@ -208,4 +211,5 @@ async function drawTracker(){
 function rm(i){trk.splice(i,1);sv();drawTracker()}
 function tab(n){$('v1').hidden=n!==1;$('v2').hidden=n!==2;$('t1').className=n===1?'on':'';$('t2').className=n===2?'on':'';if(n===2)drawTracker()}
 $('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);sv();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
