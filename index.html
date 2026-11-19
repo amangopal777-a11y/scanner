@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Levels Scanner</title>
+<style>
+:root{--bg:#0b1020;--bg2:#121a33;--card:#161f3a;--tx:#eef1fb;--mu:#8e9ac0;--bd:#26325a;--g:#2fe39a;--r:#ff6584;--ac:#7c8cff;--ac2:#4fd1ff;--am:#ffc857;box-sizing:border-box}
+@media (prefers-color-scheme:light){:root{--bg:#eef1fa;--bg2:#e2e7f6;--card:#fff;--tx:#141a33;--mu:#6b7596;--bd:#dbe1f2;--g:#0aa66b;--r:#e0364f;--ac:#4a5be0;--ac2:#0a8fc4;--am:#c98a00}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:linear-gradient(180deg,var(--bg2),var(--bg) 260px) no-repeat,var(--bg);color:var(--tx);font:15px/1.4 system-ui,-apple-system,Roboto,sans-serif;padding:calc(env(safe-area-inset-top,0px) + 14px) 14px calc(env(safe-area-inset-bottom,0px) + 84px);max-width:540px;margin:auto;min-height:100vh}
+.logo{display:flex;align-items:center;gap:10px;margin:4px 2px 14px}
+.logo i{font-style:normal;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:21px;background:linear-gradient(135deg,var(--ac),var(--ac2))}
+.logo h1{font-size:20px;margin:0}.logo small{color:var(--mu);display:block;font-size:12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:15px;margin-bottom:14px;box-shadow:0 6px 22px rgba(0,0,0,.18)}
+.srch{display:flex;gap:8px}
+input{width:100%;padding:13px;border-radius:12px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);font-size:16px;outline:0}
+input:focus{border-color:var(--ac)}
+button{border:0;font:inherit;cursor:pointer}
+.go{padding:0 20px;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;font-weight:700}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+label{font-size:11px;color:var(--mu);display:block;margin-bottom:3px}
+.mu{color:var(--mu);font-size:12px}.b{color:var(--g)}.sl{color:var(--r)}
+.hd{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.nm{font-size:18px;font-weight:800}.px{font-size:30px;font-weight:800;margin-top:6px}
+.chip{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.cg{background:rgba(47,227,154,.15);color:var(--g)}.cr{background:rgba(255,101,132,.15);color:var(--r)}.ca{background:rgba(255,200,87,.15);color:var(--am)}.cb{background:rgba(124,140,255,.18);color:var(--ac)}
+.lad{position:relative;height:64px;margin:16px 6px 6px}
+.lad .t{position:absolute;top:22px;left:0;right:0;height:8px;border-radius:6px;background:linear-gradient(90deg,var(--r),var(--bd) 50%,var(--g));opacity:.75}
+.lad .k{position:absolute;top:0;transform:translateX(-50%);text-align:center;font-size:10px;line-height:1.15;color:var(--mu)}
+.lad .k b{display:block;color:var(--tx);font-size:10px;margin-top:30px}
+.lad .k:before{content:"";position:absolute;left:50%;top:15px;width:2px;height:22px;background:var(--tx);opacity:.5;transform:translateX(-50%)}
+.lad .m{position:absolute;top:17px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--am);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--am)}
+.su{background:var(--bg);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-top:12px}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.sh b{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid div{background:var(--card);border-radius:10px;padding:8px 10px}.grid span{font-size:10px;color:var(--mu);letter-spacing:.06em;display:block}.grid b{font-size:18px}
+.ghost{width:100%;margin-top:10px;padding:11px;border-radius:12px;background:transparent;border:1px dashed var(--ac);color:var(--ac);font-weight:700}
+.bar{position:relative;height:10px;border-radius:6px;background:var(--bd);margin:26px 4px 20px}
+.bar .z1{position:absolute;top:0;bottom:0;background:var(--r);opacity:.55;border-radius:6px 0 0 6px}
+.bar .z2{position:absolute;top:0;bottom:0;background:var(--g);opacity:.55;border-radius:0 6px 6px 0}
+.bar s{position:absolute;top:-17px;transform:translateX(-50%);font-size:9px;color:var(--mu);text-decoration:none}
+.bar u{position:absolute;top:-4px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:var(--am);border:3px solid var(--card)}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}
+.st div{background:var(--bg);border-radius:12px;padding:10px 4px}.st b{font-size:20px;display:block}
+.verdict{margin-top:10px;padding:10px;border-radius:12px;background:var(--bg);font-size:13px}
+.sm{background:var(--bg);color:var(--mu);border:1px solid var(--bd);border-radius:10px;padding:6px 12px;font-size:12px}
+.tl{font-size:12px;color:var(--mu);margin-top:4px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 14px calc(env(safe-area-inset-bottom,0px) + 10px);background:var(--bg2);border-top:1px solid var(--bd);max-width:540px;margin:auto}
+nav button{flex:1;padding:12px;border-radius:12px;background:transparent;color:var(--mu);font-weight:700}
+nav button.on{background:var(--card);color:var(--tx);box-shadow:inset 0 0 0 1px var(--ac)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:20px;font-weight:600;font-size:13px;opacity:0;transition:.25s;pointer-events:none}
+#toast.s{opacity:1}
+</style></head><body>
+<div class="logo"><i>📈</i><div><h1>Levels Scanner</h1><small>Buy levels · Stop-loss · Performance tracker</small></div></div>
+
+<section id="v1">
+ <div class="card">
+  <div class="srch"><input id="n" placeholder="Stock name, e.g. RELIANCE" autocapitalize="characters"><button class="go" id="go">Scan</button></div>
+  <div class="row"><div><label>Capital (₹)</label><input id="cap" type="number" inputmode="decimal" value="100000"></div>
+  <div><label>Risk per trade %</label><input id="rk" type="number" inputmode="decimal" value="1"></div></div>
+  <details style="margin-top:10px"><summary class="mu">⚙ Private relay URL (optional, makes data reliable)</summary>
+  <input id="px" placeholder="https://yourname.workers.dev" style="margin-top:6px;font-size:14px"></details>
+  <div class="mu" id="st" style="margin-top:8px"></div>
+ </div>
+ <div id="out"></div>
+</section>
+
+<section id="v2" hidden>
+ <div id="stats"></div><div id="tl"></div>
+</section>
+
+<p class="mu" style="text-align:center">Levels use the last completed daily candle (free Yahoo data, may be delayed). Educational tool, not financial advice.</p>
+<nav><button id="t1" class="on">🔍 Scan</button><button id="t2">👁 Tracker <span id="cnt"></span></button></nav>
+<div id="toast"></div>
+<script>
+const $=id=>document.getElementById(id),f=x=>x.toFixed(2),enc=encodeURIComponent;
+const dt=t=>t?new Date(t*1000).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'';
+let trk=[],cur=null;try{trk=JSON.parse(localStorage.getItem('trk')||'[]')}catch(e){}
+const sv=()=>{try{localStorage.setItem('trk',JSON.stringify(trk))}catch(e){}$('cnt').textContent=trk.length?'('+trk.length+')':''};
+function toast(m){const t=$('toast');t.textContent=m;t.className='s';setTimeout(()=>t.className='',1800)}
+
+async function gj(u){
+ const us=[u,u.replace('query1','query2')],tries=[];
+ let PX='';try{PX=(localStorage.getItem('px')||'').trim()}catch(e){}
+ us.forEach(x=>{if(PX)tries.push(PX+(PX.includes('?')?'&':'?')+'url='+enc(x));tries.push(x,'https://api.allorigins.win/raw?url='+enc(x),'https://api.codetabs.com/v1/proxy/?quest='+enc(x),'https://corsproxy.io/?url='+enc(x),'https://thingproxy.freeboard.io/fetch/'+x,'https://yacdn.org/proxy/'+x,'https://cors.isomorphic-git.org/'+x)});
+ const mm=u.match(/chart\/([^?]+)/);if(mm)tries.unshift('data/'+decodeURIComponent(mm[1]).replace('^','_')+'.json');
+ for(let round=0;round<2;round++){
+  const ctl=new AbortController(),id=setTimeout(()=>ctl.abort(),12000);
+  try{return await Promise.any(tries.map(async t=>{const r=await fetch(t,{signal:ctl.signal});if(!r.ok)throw 0;const j=await r.json();if(!j||j.chart&&j.chart.error)throw 0;return j}))}
+  catch(e){}finally{clearTimeout(id);ctl.abort()}
+ }
+ throw new Error('Data source busy. Tap Scan again in a few seconds.');
+}
+async function resolve(q){
+ if(/[.^]/.test(q))return{sym:q.toUpperCase(),name:q.toUpperCase()};
+ const j=await gj('https://query1.finance.yahoo.com/v1/finance/search?newsCount=0&quotesCount=8&q='+enc(q));
+ const a=(j.quotes||[]).filter(x=>x.symbol),p=a.find(x=>x.symbol.endsWith('.NS'))||a.find(x=>x.symbol.endsWith('.BO'))||a[0];
+ if(!p)throw new Error('Stock not found: '+q);return{sym:p.symbol,name:p.shortname||p.longname||p.symbol};
+}
+async function fetchData(sym){
+ const j=await gj('https://query1.finance.yahoo.com/v8/finance/chart/'+enc(sym)+'?range=6mo&interval=1d');
+ const r=j.chart&&j.chart.result&&j.chart.result[0];if(!r)throw new Error('No data for '+sym);
+ const q=r.indicators.quote[0],m=r.meta,all=[];
+ r.timestamp.forEach((t,i)=>{if(q.close[i]!=null&&q.high[i]!=null)all.push({t,h:q.high[i],l:q.low[i],c:q.close[i]})});
+ const c=all.slice(),now=Date.now()/1000,reg=m.currentTradingPeriod&&m.currentTradingPeriod.regular;
+ if(reg&&c.length&&c[c.length-1].t>=reg.start&&now<reg.end)c.pop();
+ if(c.length<2)throw new Error('Only '+c.length+' candles for '+sym);
+ const L=c[c.length-1],n=Math.min(14,c.length-1);let atr=0;
+ for(let k=c.length-n;k<c.length;k++){const x=c[k],pc=c[k-1].c;atr+=Math.max(x.h-x.l,Math.abs(x.h-pc),Math.abs(x.l-pc))}atr/=n;
+ const w=c.slice(-20),sma20=w.reduce((a,x)=>a+x.c,0)/w.length,price=m.regularMarketPrice;
+ const base=(Math.abs(price-L.c)<1e-9)?c[c.length-2].c:L.c;
+ return{price,L,all,atr,sma20,base,name:m.shortName||m.longName||''};
+}
+async function scan(q){
+ q=q.trim();let errs=[],c=[];
+ if(/[.^]/.test(q))c.push(q.toUpperCase());else{const k=q.toUpperCase().replace(/\s+/g,'');c.push(k+'.NS',k+'.BO')}
+ for(const sym of c){try{const d=await fetchData(sym);return{s:{sym,name:d.name||sym.replace(/\.(NS|BO)$/,'')},d}}catch(e){errs.push(e.message)}}
+ try{const s=await resolve(q),d=await fetchData(s.sym);return{s,d}}catch(e){throw new Error(errs.concat(e.message).join(' | '))}
+}
+function levels(d,cap,rk){
+ const {h,l,c}=d.L,P=(h+l+c)/3,R=h-l,S1=2*P-h,S2=P-R,R1=2*P-l,R2=P+R,a=d.atr;
+ const mk=(en,sl,t1,t2)=>{const risk=en-sl;return{en,sl,t1,t2,rr:risk>0?(t1-en)/risk:0,q:risk>0?Math.floor(cap*rk/100/risk):0}};
+ return{P,S1,S2,R1,R2,pull:mk(S1,S1-.3*a,P,R1),brk:mk(R1,R1-.3*a,R2,R2+.5*R)};
+}
+function ladder(x,p){
+ const pts=[['S2',x.S2],['S1',x.S1],['PIVOT',x.P],['R1',x.R1],['R2',x.R2]];
+ let lo=Math.min(x.S2,p),hi=Math.max(x.R2,p);const pad=(hi-lo)*.07;lo-=pad;hi+=pad;
+ const ps=v=>((v-lo)/(hi-lo)*100).toFixed(1);
+ return`<div class="lad"><div class="t"></div>${pts.map(a=>`<div class="k" style="left:${ps(a[1])}%">${a[0]}<b>${f(a[1])}</b></div>`).join('')}<div class="m" style="left:${ps(p)}%"></div></div><div class="mu" style="text-align:center">● current price ${f(p)}</div>`;
+}
+function setup(key,title,sub,o){
+ return`<div class="su"><div class="sh"><div><b>${title}</b><span class="mu">${sub}</span></div><span class="chip ${o.rr<1.5?'cr':'cg'}">R:R 1:${o.rr.toFixed(1)}${o.rr<1.5?' ⚠':''}</span></div>
+ <div class="grid"><div><span>BUY</span><b class="b">${f(o.en)}</b></div><div><span>STOP-LOSS</span><b class="sl">${f(o.sl)}</b></div>
+ <div><span>TARGET 1</span><b>${f(o.t1)}</b></div><div><span>TARGET 2</span><b>${f(o.t2)}</b></div></div>
+ <div class="mu" style="margin-top:8px">Quantity for your risk: <b style="color:var(--tx)">${o.q}</b></div>
+ <button class="ghost" onclick="track('${key}')">👁 Track this setup (no real buy)</button></div>`;
+}
+function scanCard(){
+ const {s,d}=cur,x=cur.x,tr=d.price>=d.sma20,chg=(d.price-d.base)/d.base*100,nm=String(s.name).replace(/</g,'');
+ return`<div class="card"><div class="hd"><div><div class="nm">${nm}</div><div class="mu">${s.sym} · ATR ${f(d.atr)}</div></div>
+ <span class="chip ${tr?'cg':'cr'}">${tr?'▲ Above 20 DMA':'▼ Below 20 DMA'}</span></div>
+ <div class="px">${f(d.price)} <span class="${chg>=0?'b':'sl'}" style="font-size:14px">${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}%</span></div>
+ <div class="mu">Prev candle · H ${f(d.L.h)} · L ${f(d.L.l)} · C ${f(d.L.c)}</div>
+ ${ladder(x,d.price)}
+ ${setup('pull','Pullback buy','Buy the dip near support',x.pull)}
+ ${setup('brk','Breakout buy','Buy when price breaks resistance',x.brk)}</div>`;
+}
+async function doScan(){
+ const q=$('n').value;if(!q.trim())return;$('st').textContent='⏳ Fetching…';$('out').innerHTML='';
+ try{const r=await scan(q);r.x=levels(r.d,+$('cap').value||0,+$('rk').value||0);cur=r;$('out').innerHTML=scanCard();$('st').textContent=''}
+ catch(e){$('st').textContent='⚠ '+e.message}
+}
+try{$('px').value=localStorage.getItem('px')||''}catch(e){}
+$('px').onchange=()=>{try{localStorage.setItem('px',$('px').value.trim())}catch(e){}toast('Relay saved')};
+$('go').onclick=doScan;$('n').addEventListener('keydown',e=>{if(e.key==='Enter')doScan()});
+
+function track(k){
+ const o=cur.x[k],sigT=cur.d.L.t;
+ if(trk.some(t=>t.sym===cur.s.sym&&t.setup===k&&t.sigT===sigT)){toast('Already tracking this setup');return}
+ trk.unshift({id:Date.now(),sym:cur.s.sym,name:cur.s.name,setup:k,en:o.en,sl:o.sl,t1:o.t1,t2:o.t2,sigT,added:Math.floor(Date.now()/1000)});
+ sv();toast('✅ Added to Tracker');
+}
+function evalTrade(tr,all){
+ const o={st:'pending',trigT:0,endT:0,t2:false,t2T:0};let w=0;
+ for(const c of all.filter(c=>c.t>tr.sigT)){
+  if(o.st==='pending'){
+   w++;const trig=tr.setup==='pull'?c.l<=tr.en:c.h>=tr.en;
+   if(!trig){if(w>=5){o.st='expired';break}continue}
+   o.st='active';o.trigT=c.t;if(c.l<=tr.sl){o.st='sl';o.endT=c.t;break}continue}
+  if(o.st==='active'){
+   if(c.l<=tr.sl){o.st='sl';o.endT=c.t;break}
+   if(c.h>=tr.t1){o.st='t1';o.endT=c.t;if(c.h>=tr.t2){o.t2=true;o.t2T=c.t;break}}continue}
+  if(o.st==='t1'){if(c.h>=tr.t2){o.t2=true;o.t2T=c.t;break}if(c.l<=tr.en)break}
+ }
+ return o;
+}
+const STX={pending:['⏳ Waiting for entry','ca'],active:['🟢 Trade active','cb'],t1:['✅ Target 1 hit','cg'],sl:['❌ Stop-loss hit','cr'],expired:['⌛ Entry not triggered','ca']};
+async function drawTracker(){
+ if(!trk.length){$('stats').innerHTML='<div class="card" style="text-align:center">👁<br><b>Nothing tracked yet</b><div class="mu">Scan a stock and tap “Track this setup” to follow how its levels perform without buying.</div></div>';$('tl').innerHTML='';return}
+ $('stats').innerHTML='<div class="card mu">⏳ Checking latest prices…</div>';
+ const syms=[...new Set(trk.map(t=>t.sym))],data={};
+ await Promise.all(syms.map(async s=>{try{data[s]=await fetchData(s)}catch(e){}}));
+ let closed=0,wins=0,sumR=0,trg=0,by={pull:[0,0],brk:[0,0]},html='';
+ trk.forEach((t,i)=>{
+  const d=data[t.sym];if(!d){html+=`<div class="card">${t.sym}: price data unavailable <button class="sm" onclick="rm(${i})">Remove</button></div>`;return}
+  const o=evalTrade(t,d.all),risk=t.en-t.sl,rr1=risk>0?(t.t1-t.en)/risk:0,p=d.price;
+  if(o.trigT)trg++;
+  if(o.st==='sl'||o.st==='t1'){closed++;const r=o.st==='t1'?rr1:-1;sumR+=r;const b=by[t.setup];b[0]++;if(o.st==='t1'){wins++;b[1]++}}
+  const un=o.st==='active'&&risk>0?(p-t.en)/risk:null,S=STX[o.st];
+  let lo=Math.min(t.sl,p),hi=Math.max(t.t2,p);const pad=(hi-lo)*.08;lo-=pad;hi+=pad;const ps=v=>((v-lo)/(hi-lo)*100).toFixed(1);
+  const tlx=[`Added ${dt(t.added)}`,o.trigT?`Entry ${dt(o.trigT)}`:'',o.st==='sl'?`SL hit ${dt(o.endT)} (−1R)`:'',o.st==='t1'?`T1 hit ${dt(o.endT)} (+${rr1.toFixed(1)}R)`:'',o.t2?`T2 hit ${dt(o.t2T)}`:''].filter(Boolean).join(' → ');
+  html+=`<div class="card"><div class="hd"><div><div class="nm" style="font-size:16px">${String(t.name).replace(/</g,'')}</div><div class="mu">${t.sym} · ${t.setup==='pull'?'Pullback':'Breakout'} setup</div></div><span class="chip ${S[1]}">${S[0]}${o.t2?' · T2 ✓':''}</span></div>
+  <div class="bar"><div class="z1" style="left:${ps(t.sl)}%;width:${ps(t.en)-ps(t.sl)}%"></div><div class="z2" style="left:${ps(t.en)}%;width:${ps(t.t2)-ps(t.en)}%"></div>
+  <s style="left:${ps(t.sl)}%">SL ${f(t.sl)}</s><s style="left:${ps(t.en)}%;top:14px">BUY ${f(t.en)}</s><s style="left:${ps(t.t1)}%">T1 ${f(t.t1)}</s><s style="left:${ps(t.t2)}%;top:14px">T2 ${f(t.t2)}</s><u style="left:${ps(p)}%"></u></div>
+  <div class="mu">Now ${f(p)}${un!=null?` · open P/L <b class="${un>=0?'b':'sl'}">${un>=0?'+':''}${un.toFixed(1)}R</b>`:''}</div>
+  <div class="tl">${tlx}</div>
+  <div style="margin-top:10px;text-align:right"><button class="sm" onclick="rm(${i})">Remove</button></div></div>`;
+ });
+ const wr=closed?Math.round(wins/closed*100):0,avg=closed?sumR/closed:0,pc=k=>by[k][0]?Math.round(by[k][1]/by[k][0]*100)+'% ('+by[k][1]+'/'+by[k][0]+')':'–';
+ const v=closed<5?'ℹ️ Need at least 5–10 closed trades before judging how accurate the levels are.':
+  (wr>=50&&avg>0?'✅ Levels are working: positive average result so far.':'⚠️ Levels are not profitable so far. Try only high R:R setups or trend-aligned ones.');
+ $('stats').innerHTML=`<div class="card"><b>Levels performance</b><div class="st" style="margin-top:10px"><div><b>${trk.length}</b><span class="mu">Tracked</span></div><div><b>${trg}</b><span class="mu">Triggered</span></div><div><b>${closed}</b><span class="mu">Closed</span></div>
+ <div><b class="${wr>=50?'b':'sl'}">${wr}%</b><span class="mu">Win rate</span></div><div><b class="${avg>=0?'b':'sl'}">${avg>=0?'+':''}${avg.toFixed(2)}R</b><span class="mu">Avg result</span></div><div><b>${wins}/${closed-wins}</b><span class="mu">Win/Loss</span></div></div>
+ <div class="mu" style="margin-top:10px">Pullback wins: ${pc('pull')} · Breakout wins: ${pc('brk')}</div><div class="verdict">${v}</div>
+ <div class="mu" style="margin-top:8px">A trade counts as a win if Target 1 is hit before the stop-loss. If both hit on one candle, it counts as a loss (conservative). Entry expires after 5 candles.</div></div>`;
+ $('tl').innerHTML=html;
+}
+function rm(i){trk.splice(i,1);sv();drawTracker()}
+function tab(n){$('v1').hidden=n!==1;$('v2').hidden=n!==2;$('t1').className=n===1?'on':'';$('t2').className=n===2?'on':'';if(n===2)drawTracker()}
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);sv();
+</script></body></html>
